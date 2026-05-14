@@ -10,7 +10,7 @@
 #   6. 上传 dist 作为 Pages artifact
 #   7. 部署到 GitHub Pages
 #
-# 评委访问的最终链接形如：https://<你的GitHub用户名>.github.io/rare-park/
+# 评委访问的最终链接形如：https://ariellesun.github.io/rare-park/
 
 name: Deploy to GitHub Pages
 

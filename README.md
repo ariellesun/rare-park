@@ -2,9 +2,9 @@
 
 > 一座面向罕见病关怀的 3D 互动公园：用一个会发光的 AI 园丁，把"渐冻症"、"亨廷顿舞蹈症"、"白化病"等被遗忘的疾病，变成可被触摸、可被对话、可被理解的微光林地。
 
-[![Deploy](https://github.com/<你的GitHub用户名>/rare-park/actions/workflows/deploy.yml/badge.svg)](https://github.com/<你的GitHub用户名>/rare-park/actions/workflows/deploy.yml)
+[![Deploy](https://github.com/ariellesun/rare-park/actions/workflows/deploy.yml/badge.svg)](https://github.com/ariellesun/rare-park/actions/workflows/deploy.yml)
 
-🌐 **在线体验**：<https://你的GitHub用户名.github.io/rare-park/>
+🌐 **在线体验**：<https://ariellesun.github.io/rare-park/>
 
 ---
 
@@ -38,7 +38,7 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/<你的GitHub用户名>/rare-park.git
+git clone https://github.com/ariellesun/rare-park.git
 cd rare-park
 
 # 2. 安装依赖
