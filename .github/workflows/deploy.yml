@@ -1,0 +1,75 @@
+# GitHub Actions workflow：自动 build + 部署到 GitHub Pages
+#
+# 触发时机：每次 push 到 main 分支自动跑
+# 流程：
+#   1. checkout 代码
+#   2. 安装 Node 20
+#   3. npm ci 装依赖
+#   4. 用 GitHub Secrets 里的混元 key 注入环境变量
+#   5. npm run build 生成 dist
+#   6. 上传 dist 作为 Pages artifact
+#   7. 部署到 GitHub Pages
+#
+# 评委访问的最终链接形如：https://<你的GitHub用户名>.github.io/rare-park/
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # 允许在 GitHub 网页手动触发
+
+# Pages 部署所需权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一个部署
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        env:
+          # 这三个变量从 GitHub 仓库 Settings → Secrets and variables → Actions 中读取
+          VITE_HUNYUAN_API_KEY: ${{ secrets.VITE_HUNYUAN_API_KEY }}
+          VITE_HUNYUAN_BASE_URL: ${{ secrets.VITE_HUNYUAN_BASE_URL }}
+          VITE_HUNYUAN_MODEL: ${{ secrets.VITE_HUNYUAN_MODEL }}
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
